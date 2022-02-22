@@ -39,4 +39,4 @@ class VehicleViewSet(ViewSet):
         if serialized_data.is_valid():
             return Response(serialized_data.data, status=status.HTTP_200_OK)
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(serialized_data.errors, status=status.HTTP_400_BAD_REQUEST)
