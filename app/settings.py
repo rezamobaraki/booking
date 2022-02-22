@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     'debug_toolbar',
-    'requests',
 ]
 
 MIDDLEWARE = [
@@ -87,8 +86,8 @@ DATABASES = {
         'NAME': "booking",
         'USER': 'postgres',
         'PASSWORD': "postgres",
-        'HOST': 'localhost',
-        # 'HOST': '141.11.246.38',
+        # 'HOST': 'localhost',
+        'HOST': '141.11.246.38',
         'PORT': '5432',
     }
 }
