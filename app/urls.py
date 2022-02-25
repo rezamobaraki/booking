@@ -22,7 +22,7 @@ from core.urls import router as core_router
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
-                  path('core/', include(core_router.urls))
+                  path('api/', include(core_router.urls))
               ] + [
                   path('__debug__/', include('debug_toolbar.urls')),
               ]
