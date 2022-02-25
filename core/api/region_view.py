@@ -3,6 +3,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.viewsets import ModelViewSet
 
 from core.models import Country, City, State
+from core.permissions import DenyAny
 from core.serializers import CountrySerializer, CitySerializer
 from core.serializers.region_serializer import StateSerializer
 
@@ -16,6 +17,11 @@ class CountryViewSet(ModelViewSet):
     filter_fields = __basic_fields
     search_fields = __basic_fields
 
+    def get_permissions(self):
+        if self.action in ['create', 'update', 'partial_update', 'delete']:
+            self.permission_classes = [DenyAny]
+        return super().get_permissions()
+
 
 class StateViewSet(ModelViewSet):
     __basic_fields = ('name', 'country__name')
@@ -26,6 +32,11 @@ class StateViewSet(ModelViewSet):
     filter_fields = __basic_fields
     search_fields = __basic_fields
 
+    def get_permissions(self):
+        if self.action in ['create', 'update', 'partial_update', 'delete']:
+            self.permission_classes = [DenyAny]
+        return super().get_permissions()
+
 
 class CityViewSet(ModelViewSet):
     __basic_fields = ('name', 'country__name', 'state__name')
@@ -35,6 +46,11 @@ class CityViewSet(ModelViewSet):
     filter_backends = (SearchFilter, DjangoFilterBackend, OrderingFilter)
     filter_fields = __basic_fields
     search_fields = __basic_fields
+
+    def get_permissions(self):
+        if self.action in ['create', 'update', 'partial_update', 'delete']:
+            self.permission_classes = [DenyAny]
+        return super().get_permissions()
 
     def get_queryset(self):
         return super().get_queryset().select_related('country', 'state')
