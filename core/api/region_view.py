@@ -9,13 +9,12 @@ from core.serializers.region_serializer import StateSerializer
 
 
 class CountryViewSet(ModelViewSet):
-    __basic_fields = ('name', 'cities__name')
     model = Country
     queryset = model.objects.all()
     serializer_class = CountrySerializer
     filter_backends = (SearchFilter, DjangoFilterBackend, OrderingFilter)
-    filter_fields = __basic_fields
-    search_fields = __basic_fields
+    filter_fields = ('iso3', 'iso2')
+    search_fields = ('name', 'cities__name')
 
     def get_permissions(self):
         if self.action in ['create', 'bulk_create', 'update', 'partial_update',
@@ -25,13 +24,12 @@ class CountryViewSet(ModelViewSet):
 
 
 class StateViewSet(ModelViewSet):
-    __basic_fields = ('name', 'country__name')
     model = State
     queryset = model.objects.all()
     serializer_class = StateSerializer
     filter_backends = (SearchFilter, DjangoFilterBackend, OrderingFilter)
-    filter_fields = __basic_fields
-    search_fields = __basic_fields
+    filter_fields = ('country_id', 'country__iso3', 'country__iso2')
+    search_fields = ('name', 'state_code', 'country__name')
 
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update', 'delete']:
@@ -45,8 +43,8 @@ class CityViewSet(ModelViewSet):
     queryset = model.objects.all()
     serializer_class = CitySerializer
     filter_backends = (SearchFilter, DjangoFilterBackend, OrderingFilter)
-    filter_fields = __basic_fields
-    search_fields = __basic_fields
+    filter_fields = ('country_id', 'country__iso3', 'country__iso2', 'state__state_code')
+    search_fields = ('name', 'country__name', 'state__name')
 
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update', 'delete']:
