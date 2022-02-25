@@ -18,7 +18,8 @@ class CountryViewSet(ModelViewSet):
     search_fields = __basic_fields
 
     def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update', 'delete']:
+        if self.action in ['create', 'bulk_create', 'update', 'partial_update',
+                           'bulk_update', 'delete']:
             self.permission_classes = [DenyAny]
         return super().get_permissions()
 
