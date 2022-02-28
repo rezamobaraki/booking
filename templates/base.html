@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static "css/open-iconic-bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/animate.css" %}">
+
+    <link rel="stylesheet" href="{% static "css/owl.carousel.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/owl.theme.default.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/magnific-popup.css" %}">
+
+    <link rel="stylesheet" href="{% static "css/aos.css" %}">
+
+    <link rel="stylesheet" href="{% static "css/ionicons.min.css" %}">
+
+    <link rel="stylesheet" href="{% static "css/bootstrap-datepicker.css" %}">
+    <link rel="stylesheet" href="{% static "css/jquery.timepicker.css" %}">
+
+    <link rel="stylesheet" href="{% static "css/flaticon.css" %}">
+    <link rel="stylesheet" href="{% static "css/icomoon.css" %}">
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    {% block custom_tags %}{% endblock %}
+
+</head>
+<body>
+
+{% include 'layouts/navbar.html' %}
+{% include 'layouts/container.html' %}
+
+
+{% block content %} {% endblock %}
+
+
+{% include 'layouts/footer.html' %}
+{% include 'layouts/loader.html' %}
+
+
+<script src="{% static "js/jquery.min.js" %}"></script>
+<script src="{% static "js/jquery-migrate-3.0.1.min.js" %}"></script>
+<script src="{% static "js/popper.min.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+<script src="{% static "js/jquery.easing.1.3.js" %}"></script>
+<script src="{% static "js/jquery.waypoints.min.js" %}"></script>
+<script src="{% static "js/jquery.stellar.min.js" %}"></script>
+<script src="{% static "js/owl.carousel.min.js" %}"></script>
+<script src="{% static "js/jquery.magnific-popup.min.js" %}"></script>
+<script src="{% static "js/aos.js" %}"></script>
+<script src="{% static "js/jquery.animateNumber.min.js" %}"></script>
+<script src="{% static "js/bootstrap-datepicker.js" %}"></script>
+<script src="{% static "js/jquery.timepicker.min.js" %}"></script>
+<script src="{% static "js/scrollax.min.js" %}"></script>
+<script src="{% static "js/google-map.js" %}"></script>
+<script src="{% static "js/main.js" %}"></script>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+    integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+{% block script %}
+{% endblock %}
+<script>
+    $(function () {
+        $("#pick_up_location").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/api/cities/?search=" + request.term,
+                    type: "GET",
+                    success: function (data) {
+                        response($.map(data['results'], function (item) {
+                            return {
+                                label: item.name
+                            };
+                        }));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $("#pick_up_location").val(ui.label);
+                return false;
+            },
+        });
+    });
+</script>
+
+</html>

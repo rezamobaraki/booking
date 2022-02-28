@@ -88,8 +88,8 @@ DATABASES = {
         'NAME': "booking",
         'USER': 'postgres',
         'PASSWORD': "postgres",
-        # 'HOST': 'localhost',
-        'HOST': '141.11.246.38',
+        'HOST': 'localhost',
+        # 'HOST': '141.11.246.38',
         'PORT': '5432',
     }
 }
@@ -131,8 +131,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 
-MEDIA_URL = r'/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

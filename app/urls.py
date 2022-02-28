@@ -17,12 +17,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-
-from core.urls import router as core_router
+from django.views.generic import TemplateView
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
-                  path('api/', include(core_router.urls))
+                  path('api/', include('core.urls', namespace='core')),
+                  path('', TemplateView.as_view(template_name='core/search_car.html'))
+
               ] + [
                   path('__debug__/', include('debug_toolbar.urls')),
               ]
