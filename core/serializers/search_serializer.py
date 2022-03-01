@@ -16,6 +16,7 @@ class SearchSortSerializer(BaseSerializer):
 class SearchResultSerializer(BaseSerializer):
     vehicle_info = VehicleSerializer(required=False)
     supplier_info = SupplierSerializer(required=False)
+    pricing_info = PricingSerializer(required=False)
     fee_breakdown = FeeSerializer(required=False)
     fee_info = PricingSerializer(required=False)
 

@@ -1,6 +1,9 @@
 import json
 
 import requests
+from django.contrib import messages
+from django.shortcuts import redirect, render
+from django.views import View
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
@@ -9,53 +12,74 @@ from rest_framework.viewsets import ViewSet
 
 from core.models.booking import SearchBooking
 from core.serializers.search_serializer import SearchSerializer
+from utils.content_manager import get_errors
 
 
 class VehicleViewSet(ViewSet):
-    api_url = "https://booking-com.p.rapidapi.com/v1/car-rental/search"
+    api_url = "https://booking-com.p.rapidapi.com/v1/car-rental/"
     serializer_class = SearchSerializer
     renderer_classes = (JSONRenderer, TemplateHTMLRenderer)
 
     @action(detail=False, methods=["post"], permission_classes=[])
-    def search_car(self, request, *args, **kwargs):
+    def search(self, request, *args, **kwargs):
+        self.api_url = self.api_url + "search"
         data = dict()
         for key, value in request.data.items():
             if key == 'csrfmiddlewaretoken':
                 continue
             data[key] = value
-
         search_data = SearchBooking(**data)
-        pick_up_lat, pick_up_long = search_data.pick_up_location_points()
-        drop_off_lat, drop_off_long = search_data.drop_off_location_points()
-        querystring = {"drop_off_datetime": search_data.drop_off_timestamp(),
-                       "sort_by": request.data.get('sort_by', "recommended"),
-                       "pick_up_datetime": search_data.pick_up_timestamp(),
-                       "pick_up_latitude": pick_up_lat,
-                       "from_country": request.data.get('from_country', "it"),
-                       "locale": request.data.get('locale', "en-gb"),
-                       "drop_off_latitude": drop_off_lat,
-                       "drop_off_longitude": pick_up_long,
-                       "pick_up_longitude": drop_off_long,
-                       "currency": request.data.get('currency', "USD")
-                       }
-
-        headers = {
-            'x-rapidapi-host': "booking-com.p.rapidapi.com",
-            'x-rapidapi-key': "910e503bf3msh01b90ab3b1811d8p15372bjsn7670471df649"
-        }
-
-        response = requests.request("GET", self.api_url, headers=headers, params=querystring)
+        response = requests.request(
+            method="GET",
+            url=self.api_url,
+            headers=SearchBooking.get_headers(),
+            params=search_data.get_query_params(request)
+        )
 
         if response.status_code == status.HTTP_200_OK:
             contex = json.loads(response.content)
             serialized_data = SearchSerializer(data=contex)
             if serialized_data.is_valid():
-                return Response({'search_results': serialized_data.data.get('search_results')},
-                                template_name='core/search.html',
+                return Response({'search_results': serialized_data.data.get('search_results'),
+                                 'search_key': serialized_data.data.get('search_key')},
+                                template_name='core/cars.html',
                                 status=status.HTTP_200_OK)
             else:
-                return Response({'serializer': serialized_data.errors}, template_name='core/search_car.html',
-                                status=status.HTTP_400_BAD_REQUEST)
+                content = json.loads(serialized_data.errors)
+                messages.error(request, content, 'danger')
+                return redirect('search')
         else:
-            return Response({'content': response.content}, template_name='core/search_car.html',
-                            status=response.status_code)
+            try:
+                content = get_errors(json.loads(response.content))
+                messages.error(request, content, 'danger')
+                return redirect('search')
+            except:
+                messages.error(request, response.content, 'danger')
+                return redirect('search')
+
+
+class VehicleDetail(View):
+    renderer_classes = (JSONRenderer, TemplateHTMLRenderer)
+    api_url = "https://booking-com.p.rapidapi.com/v1/car-rental/"
+
+    def get(self, request, *args, **kwargs):
+        self.api_url = self.api_url + "detail"
+        response = requests.request(
+            method="GET",
+            url=self.api_url,
+            headers=SearchBooking.get_headers(),
+            params={
+                "vehicle_id": kwargs.get('vehicle_id'),
+                "search_key": kwargs.get('search_key', None),
+                "from_country": request.GET.get('from_country', "it"),
+                "locale": request.GET.get('locale', "en-gb"),
+                "currency": request.GET.get('currency', "USD")
+            }
+        )
+
+        if response.status_code == 200:
+            json_data = json.loads(response.content)
+            return render(request, 'core/car-single.html', {'vehicle': json_data.get('vehicle')})
+        else:
+            messages.error(response.content, 'danger')
+            return redirect('search')

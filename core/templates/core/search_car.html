@@ -1,11 +1,37 @@
 {% extends 'base.html' %}
+{% load static %}
+
+
 
 
 {% block title %}
     search page
 {% endblock %}
 
-
+{% block container %}
+    <div class="hero-wrap ftco-degree-bg" style="background-image: url('{% static 'images/bg_1.jpg' %}');"
+         data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text justify-content-start align-items-center justify-content-center">
+                <div class="col-lg-8 ftco-animate">
+                    <div class="text w-100 text-center mb-md-5 pb-md-5">
+                        <h1 class="mb-4"> Just take an smile ;) </h1>
+                        <a href="https://vimeo.com/45830194"
+                           class="icon-wrap popup-vimeo d-flex align-items-center mt-4 justify-content-center">
+                            <div class="icon d-flex align-items-center justify-content-center">
+                                <span class="ion-ios-play"></span>
+                            </div>
+                            <div class="heading-title ml-5">
+                                <span>Easy steps for renting a car</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
 {% block content %}
 
@@ -15,7 +41,7 @@
                 <div class="col-md-12	featured-top">
                     <div class="row no-gutters">
                         <div class="col-md-4 d-flex align-items-center">
-                            <form action="{% url 'core:vehicles-search-car' %}" method="post"
+                            <form action="{% url 'core:vehicles-search' %}" method="post"
                                   class="request-form ftco-animate bg-primary">
                                 {% csrf_token %}
                                 <h2>Make your trip</h2>
@@ -23,10 +49,16 @@
                                     <label for="pick_up_location" class="label">Pick-up location</label>
                                     <input type="text" class="form-control" id="pick_up_location"
                                            name="pick_up_location" placeholder="City">
+                                    <input type="hidden" name="pick_up_location_lat" id="pick_up_location_lat">
+                                    <input type="hidden" name="pick_up_location_long" id="pick_up_location_long">
                                 </div>
                                 <div class="form-group">
-                                    <label for="" class="label">Drop-off location</label>
-                                    <input type="text" class="form-control" name="drop_off_location" placeholder="City">
+                                    <label for="drop_off_location" class="label">Drop-off location</label>
+                                    <input type="text" class="form-control" name="drop_off_location"
+                                           id="drop_off_location" placeholder="City">
+                                    <input type="hidden" name="drop_off_location_lat" id="drop_off_location_lat">
+                                    <input type="hidden" name="drop_off_location_long" id="drop_off_location_long">
+
                                 </div>
                                 <ul class="list-group" id="result"></ul>
                                 <div class="d-flex">
@@ -61,6 +93,7 @@
                         </div>
                         <div class="col-md-8 d-flex align-items-center">
                             <div class="services-wrap rounded-right w-100">
+                                 {% include 'external/messages.html' %}
                                 <h3 class="heading-section mb-4">Better Way to Rent Your Perfect Cars</h3>
                                 <div class="row d-flex mb-4">
                                     <div class="col-md-4 d-flex align-self-stretch ftco-animate">
@@ -98,36 +131,63 @@
             </div>
         </div>
     </section>
-{% endblock content %}
+{% endblock %}
 
 
 {% block script %}
     <script>
-    $(function () {
-        $("#pick_up_location").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: "/api/cities/?search=" + request.term,
-                    type: "GET",
-                    success: function (data) {
-                        response($.map(data['results'], function (item) {
-                            return {
-                                label: item.name,
-                                lat: item.latitude,
-                                long: item.longitude
-                            };
-                        }));
-                    }
-                });
-            },
-            select: function (event, ui) {
-                $("#pick_up_location").val(ui.label)
-                return false;
-            },
-
-
+        $(function () {
+            $("#pick_up_location").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/api/cities/?search=" + request.term,
+                        type: "GET",
+                        success: function (data) {
+                            response($.map(data['results'], function (item) {
+                                return {
+                                    label: item.name,
+                                    lat: item.latitude,
+                                    long: item.longitude
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function test(event, ui) {
+                    $("#pick_up_location").val(ui.item.label);
+                    $("#pick_up_location_lat").val(ui.item.lat);
+                    $("#pick_up_location_long").val(ui.item.long);
+                    return false;
+                },
+            });
         });
-    });
-</script>
+
+        $(function () {
+            $("#drop_off_location").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/api/cities/?search=" + request.term,
+                        type: "GET",
+                        success: function (data) {
+                            response($.map(data['results'], function (item) {
+                                return {
+                                    label: item.name,
+                                    lat: item.latitude,
+                                    long: item.longitude
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function test(event, ui) {
+                    $("#drop_off_location").val(ui.item.label);
+                    $("#drop_off_location_lat").val(ui.item.lat);
+                    $("#drop_off_location_long").val(ui.item.long);
+                    return false;
+                },
+            });
+        });
+    </script>
+
 {% endblock %}
 

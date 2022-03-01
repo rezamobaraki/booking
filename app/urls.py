@@ -19,10 +19,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 
+from core.api.booking_view import VehicleDetail
+
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('api/', include('core.urls', namespace='core')),
-                  path('', TemplateView.as_view(template_name='core/search_car.html'))
+                  path('', TemplateView.as_view(template_name='core/search_car.html'), name='search'),
+                  path('api/rental/<str:vehicle_id>/detail/<str:search_key>/', VehicleDetail.as_view(), name='vehicles-detail'),
+                  # path('search/cars/', TemplateView.as_view(template_name='core/cars.html'))
 
               ] + [
                   path('__debug__/', include('debug_toolbar.urls')),

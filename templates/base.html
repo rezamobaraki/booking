@@ -34,7 +34,7 @@
 <body>
 
 {% include 'layouts/navbar.html' %}
-{% include 'layouts/container.html' %}
+{% block container %} {% endblock %}
 
 
 {% block content %} {% endblock %}
@@ -61,33 +61,12 @@
 <script src="{% static "js/google-map.js" %}"></script>
 <script src="{% static "js/main.js" %}"></script>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-    integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+        integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 {% block script %}
 {% endblock %}
-<script>
-    $(function () {
-        $("#pick_up_location").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: "/api/cities/?search=" + request.term,
-                    type: "GET",
-                    success: function (data) {
-                        response($.map(data['results'], function (item) {
-                            return {
-                                label: item.name
-                            };
-                        }));
-                    }
-                });
-            },
-            select: function (event, ui) {
-                $("#pick_up_location").val(ui.label);
-                return false;
-            },
-        });
-    });
-</script>
+
 
 </html>
