@@ -1,0 +1,7 @@
+{% load extras %}
+
+{% if messages %}
+    {% for message in messages %}
+        <pre class="alert alert-{{ message.tags }}">{{ message }}</pre>
+    {% endfor %}
+{% endif %}

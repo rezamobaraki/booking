@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+
+{% block title %}
+    search page
+{% endblock %}
+
+{% block container %}
+    <div class="hero-wrap ftco-degree-bg" style="background-image: url('{% static 'images/bg_1.jpg' %}');"
+         data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text justify-content-start align-items-center justify-content-center">
+                <div class="col-lg-8 ftco-animate">
+                    <div class="text w-100 text-center mb-md-5 pb-md-5">
+                        <h1 class="mb-4"> Just take an smile ;) </h1>
+                        <a href="https://vimeo.com/45830194"
+                           class="icon-wrap popup-vimeo d-flex align-items-center mt-4 justify-content-center">
+                            <div class="icon d-flex align-items-center justify-content-center">
+                                <span class="ion-ios-play"></span>
+                            </div>
+                            <div class="heading-title ml-5">
+                                <span>Easy steps for renting a car</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <section class="ftco-section ftco-no-pt bg-light">
+        <div class="container">
+            <div class="row no-gutters">
+                <div class="col-md-12	featured-top">
+                    <div class="row no-gutters">
+                        <div class="col-md-4 d-flex align-items-center">
+                            <form action="{% url 'core:vehicles-search' %}" method="post"
+                                  class="request-form ftco-animate bg-primary">
+                                {% csrf_token %}
+                                <h2>Make your trip</h2>
+                                <div class="form-group">
+                                    <label for="pick_up_location" class="label">Pick-up location</label>
+                                    <input type="text" class="form-control" id="pick_up_location"
+                                           name="pick_up_location" placeholder="City">
+                                    <input type="hidden" name="pick_up_location_lat" id="pick_up_location_lat">
+                                    <input type="hidden" name="pick_up_location_long" id="pick_up_location_long">
+                                </div>
+                                <div class="form-group">
+                                    <label for="drop_off_location" class="label">Drop-off location</label>
+                                    <input type="text" class="form-control" name="drop_off_location"
+                                           id="drop_off_location" placeholder="City">
+                                    <input type="hidden" name="drop_off_location_lat" id="drop_off_location_lat">
+                                    <input type="hidden" name="drop_off_location_long" id="drop_off_location_long">
+
+                                </div>
+                                <ul class="list-group" id="result"></ul>
+                                <div class="d-flex">
+                                    <div class="form-group mr-2">
+                                        <label for="" class="label">Pick-up date</label>
+                                        <input type="text" class="form-control" id="book_pick_date"
+                                               name="pick_up_date" placeholder="Date">
+                                    </div>
+                                    <div class="form-group ml-2">
+                                        <label for="" class="label">Drop-off date</label>
+                                        <input type="text" class="form-control" id="book_off_date"
+                                               name="drop_off_date" placeholder="Date">
+                                    </div>
+
+                                </div>
+                                <div class="d-flex">
+                                    <div class="form-group mr-2">
+                                        <label for="time_pick" class="label">Pick-up time</label>
+                                        <input type="text" class="form-control input-sm" name="time_pick" id="time_pick"
+                                               placeholder="Time">
+                                    </div>
+                                    <div class="form-group ml-2">
+                                        <label for="time_drop" class="label">Drop-off time</label>
+                                        <input type="text" class="form-control input-sm" name="time_drop" id="time_drop"
+                                               placeholder="Time">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Rent A Car Now" class="btn btn-secondary py-3 px-4">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-8 d-flex align-items-center">
+                            <div class="services-wrap rounded-right w-100">
+                                 {% include 'external/messages.html' %}
+                                <h3 class="heading-section mb-4">Better Way to Rent Your Perfect Cars</h3>
+                                <div class="row d-flex mb-4">
+                                    <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+                                        <div class="services w-100 text-center">
+                                            <div class="icon d-flex align-items-center justify-content-center"><span
+                                                    class="flaticon-route"></span></div>
+                                            <div class="text w-100">
+                                                <h3 class="heading mb-2">Choose Your Pickup Location</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+                                        <div class="services w-100 text-center">
+                                            <div class="icon d-flex align-items-center justify-content-center"><span
+                                                    class="flaticon-handshake"></span></div>
+                                            <div class="text w-100">
+                                                <h3 class="heading mb-2">Select the Best Deal</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+                                        <div class="services w-100 text-center">
+                                            <div class="icon d-flex align-items-center justify-content-center"><span
+                                                    class="flaticon-rent"></span></div>
+                                            <div class="text w-100">
+                                                <h3 class="heading mb-2">Reserve Your Rental Car</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+
+{% block script %}
+    <script>
+        $(function () {
+            $("#pick_up_location").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/api/cities/?search=" + request.term,
+                        type: "GET",
+                        success: function (data) {
+                            response($.map(data['results'], function (item) {
+                                return {
+                                    label: item.name,
+                                    lat: item.latitude,
+                                    long: item.longitude
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function test(event, ui) {
+                    $("#pick_up_location").val(ui.item.label);
+                    $("#pick_up_location_lat").val(ui.item.lat);
+                    $("#pick_up_location_long").val(ui.item.long);
+                    return false;
+                },
+            });
+        });
+
+        $(function () {
+            $("#drop_off_location").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/api/cities/?search=" + request.term,
+                        type: "GET",
+                        success: function (data) {
+                            response($.map(data['results'], function (item) {
+                                return {
+                                    label: item.name,
+                                    lat: item.latitude,
+                                    long: item.longitude
+                                };
+                            }));
+                        }
+                    });
+                },
+                select: function test(event, ui) {
+                    $("#drop_off_location").val(ui.item.label);
+                    $("#drop_off_location_lat").val(ui.item.lat);
+                    $("#drop_off_location_long").val(ui.item.long);
+                    return false;
+                },
+            });
+        });
+    </script>
+
+{% endblock %}
+

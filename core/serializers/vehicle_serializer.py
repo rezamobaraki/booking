@@ -9,10 +9,10 @@ class SuitcasesSerializer(BaseSerializer):
 
 
 class VehicleSerializer(BaseSerializer):
-    v_id = serializers.IntegerField()
+    v_id = serializers.CharField()
     v_name = serializers.CharField(allow_null=True, allow_blank=True)
-    seats = serializers.IntegerField()
-    doors = serializers.IntegerField()
+    seats = serializers.CharField()
+    doors = serializers.CharField()
     airbags = serializers.BooleanField()
     aircon = serializers.BooleanField()
     unlimited_mileage = serializers.BooleanField
