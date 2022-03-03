@@ -41,7 +41,9 @@ class VehicleViewSet(ViewSet):
             serialized_data = SearchSerializer(data=contex)
             if serialized_data.is_valid():
                 return Response({'search_results': serialized_data.data.get('search_results'),
-                                 'search_key': serialized_data.data.get('search_key')},
+                                 'search_key': serialized_data.data.get('search_key'),
+                                 'pick': search_data.pick_up_location,
+                                 'drop': search_data.drop_off_location},
                                 template_name='core/cars.html',
                                 status=status.HTTP_200_OK)
             else:

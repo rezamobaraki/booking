@@ -27,7 +27,8 @@ urlpatterns = [
                   path('accounts/', include('accounts.urls', namespace='accounts')),
                   path('oauth/', include('social_django.urls', namespace='social')),
                   path('club/', include('club.urls', namespace='club')),
-                  path('api/rental/<str:vehicle_id>/detail/<str:search_key>/', VehicleDetail.as_view(),
+                  path('api/rental/<str:vehicle_id>/detail/<str:search_key>/<str:pick>/<str:drop>/',
+                       VehicleDetail.as_view(),
                        name='vehicles-detail'),
                   path('', TemplateView.as_view(template_name='core/search_car.html'), name='search'),
                   # path('search/cars/', TemplateView.as_view(template_name='core/cars.html'))
