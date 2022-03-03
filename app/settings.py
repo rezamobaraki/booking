@@ -178,8 +178,8 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'm6PdAVgi7bAu6GK5B1vV9sjC'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     'https://www.googleapis.com/auth/userinfo.email',
 ]
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'search'
-SOCIAL_AUTH_LOGIN_ERROR_URL = 'search'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'http://rezoo.ir/'
+SOCIAL_AUTH_LOGIN_ERROR_URL = 'http://rezoo.ir/'
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubOAuth2',
