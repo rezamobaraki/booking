@@ -6,6 +6,7 @@ from django.shortcuts import redirect, render
 from django.views import View
 from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
@@ -18,9 +19,10 @@ from utils.content_manager import get_errors
 class VehicleViewSet(ViewSet):
     api_url = "https://booking-com.p.rapidapi.com/v1/car-rental/"
     serializer_class = SearchSerializer
+    permission_classes = [IsAuthenticated]
     renderer_classes = (JSONRenderer, TemplateHTMLRenderer)
 
-    @action(detail=False, methods=["post"], permission_classes=[])
+    @action(detail=False, methods=["post"], permission_classes=[IsAuthenticated])
     def search(self, request, *args, **kwargs):
         self.api_url = self.api_url + "search"
         data = dict()
@@ -61,6 +63,7 @@ class VehicleViewSet(ViewSet):
 
 
 class VehicleDetail(View):
+    permission_classes = [IsAuthenticated]
     renderer_classes = (JSONRenderer, TemplateHTMLRenderer)
     api_url = "https://booking-com.p.rapidapi.com/v1/car-rental/"
 
