@@ -16,11 +16,11 @@ class CountryViewSet(ModelViewSet):
     filter_fields = ('iso3', 'iso2')
     search_fields = ('name', 'cities__name')
 
-    def get_permissions(self):
-        if self.action in ['create', 'bulk_create', 'update', 'partial_update',
-                           'bulk_update', 'delete']:
-            self.permission_classes = [DenyAny]
-        return super().get_permissions()
+    # def get_permissions(self):
+    #     if self.action in ['create', 'bulk_create', 'update', 'partial_update',
+    #                        'bulk_update', 'delete']:
+    #         self.permission_classes = [DenyAny]
+    #     return super().get_permissions()
 
 
 class StateViewSet(ModelViewSet):
@@ -31,10 +31,10 @@ class StateViewSet(ModelViewSet):
     filter_fields = ('country_id', 'country__iso3', 'country__iso2')
     search_fields = ('name', 'state_code', 'country__name')
 
-    def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update', 'delete']:
-            self.permission_classes = [DenyAny]
-        return super().get_permissions()
+    # def get_permissions(self):
+    #     if self.action in ['create', 'update', 'partial_update', 'delete']:
+    #         self.permission_classes = [DenyAny]
+    #     return super().get_permissions()
 
 
 class CityViewSet(ModelViewSet):
@@ -46,10 +46,10 @@ class CityViewSet(ModelViewSet):
     filter_fields = ('country_id', 'country__iso3', 'country__iso2', 'state__state_code')
     search_fields = ('name', 'country__name', 'state__name')
 
-    def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update', 'delete']:
-            self.permission_classes = [DenyAny]
-        return super().get_permissions()
+    # def get_permissions(self):
+    #     if self.action in ['create', 'update', 'partial_update', 'delete']:
+    #         self.permission_classes = [DenyAny]
+    #     return super().get_permissions()
 
     def get_queryset(self):
         return super().get_queryset().select_related('country', 'state')
