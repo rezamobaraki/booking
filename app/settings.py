@@ -39,13 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # local apps
+    'accounts.apps.AccountsConfig',
     'core.apps.CoreConfig',
+    'club.apps.ClubConfig',
     'utils',
     # third party apps
     'rest_framework',
     'django_extensions',
     'debug_toolbar',
     'django_filters',
+    'social_django',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +60,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -72,6 +78,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -131,7 +139,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -147,3 +154,35 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 20
 }
+
+# ARVAN CLOUD STORAGE
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = '628445fe-1c0d-4936-9473-7fbfe2f101eb'
+AWS_SECRET_ACCESS_KEY = 'b244d6478db7b15d467ded6ec176d88b9ee8c93a0e7a2ffd667993904efca216'
+AWS_STORAGE_BUCKET_NAME = 'django-club'
+AWS_SERVICE_NAME = 's3'
+AWS_S3_ENDPOINT_URL = 'https://s3.ir-thr-at1.arvanstorage.com'
+AWS_S3_FILE_OVERWRITE = False
+AWS_LOCAL_STORAGE = f"{BASE_DIR}/aws/"
+# ARVAN CLOUD STORAGE
+
+
+# SOCIAL DJANGO
+# SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+SOCIAL_AUTH_GITHUB_KEY = 'baf8d8d297f87571a963'
+SOCIAL_AUTH_GITHUB_SECRET = '93bc6f46fe276d0d09d4074cdffacf524958bc47'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '788032830417-fcmo7dpt37bmsmk3tfoo4gt0qdni2v7q.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'm6PdAVgi7bAu6GK5B1vV9sjC'
+# SOCIAL DJANGO
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+]
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'search'
+SOCIAL_AUTH_LOGIN_ERROR_URL = 'search'
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)

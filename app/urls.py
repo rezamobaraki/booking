@@ -24,6 +24,9 @@ from core.api.booking_view import VehicleDetail
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('api/', include('core.urls', namespace='core')),
+                  path('accounts/', include('accounts.urls', namespace='accounts')),
+                  path('oauth/', include('social_django.urls', namespace='social')),
+                  path('club/', include('club.urls', namespace='club')),
                   path('api/rental/<str:vehicle_id>/detail/<str:search_key>/', VehicleDetail.as_view(),
                        name='vehicles-detail'),
                   path('', TemplateView.as_view(template_name='core/search_car.html'), name='search'),
