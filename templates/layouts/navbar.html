@@ -15,11 +15,11 @@
 
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
-
+                <li class="nav-item"><a class="nav-item nav-link" href="{% url 'blog:all_articles' %}">Blog</a></li>
                 <li class="nav-item active"><a class="nav-item nav-link" href="{% url 'search' %}">Home</a></li>
                 {% if request.user.is_authenticated %}
                     <li class="nav-item"><a class="nav-item nav-link"
-                                            href="{% url 'accounts:dashboard' request.user.username %}">dashboard</a>
+                                            href="{% url 'accounts:dashboard' request.user.username %}">Dashboard</a>
                     </li>
                     <li class="nav-item"><a class="nav-item nav-link" href="{% url 'accounts:logout' %}">Logout</a></li>
                 {% else %}
@@ -28,6 +28,9 @@
                     </li>
                 {% endif %}
                 {% if request.user.is_superuser %}
+                    <li class="nav-item"><a class="nav-item nav-link" href="{% url 'admin:blog_article_add' %}">Add Blog</a>
+                    </li>
+
                     <li class="nav-item"><a class="nav-item nav-link" href="{% url 'club:bucket_home' %}">Bucket</a>
                     </li>
                 {% endif %}

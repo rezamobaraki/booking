@@ -1,0 +1,19 @@
+{% extends 'base2.html' %}
+
+{% block title %}
+    articles
+{% endblock %}
+
+{% block title-head %}
+    All articles
+{% endblock %}
+
+{% block content %}
+
+    <div class="card">
+        {% for article in all_articles %}
+            <a href="{{ article.get_absolute_url }}" class="card-body">{{ article.title }}</a>
+        {% endfor %}
+    </div>
+
+{% endblock %}

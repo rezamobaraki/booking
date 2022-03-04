@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'core.apps.CoreConfig',
     'club.apps.ClubConfig',
+    'blog.apps.BlogConfig',
     'utils',
     # third party apps
     'rest_framework',
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     'django_filters',
     'social_django',
     'storages',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -139,6 +141,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -186,3 +191,10 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+    },
+}
+CKEDITOR_UPLOAD_PATH = "uploads/"

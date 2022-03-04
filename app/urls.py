@@ -24,6 +24,8 @@ from core.api.booking_view import VehicleDetail
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('api/', include('core.urls', namespace='core')),
+                  path('blog/', include('blog.urls', namespace='blog')),
+                  path('ckeditor/', include('ckeditor_uploader.urls')),
                   path('accounts/', include('accounts.urls', namespace='accounts')),
                   path('oauth/', include('social_django.urls', namespace='social')),
                   path('club/', include('club.urls', namespace='club')),
