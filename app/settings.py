@@ -197,4 +197,4 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'full',
     },
 }
-CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_UPLOAD_PATH = f"{BASE_DIR}/aws/"
