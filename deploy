@@ -1,8 +1,9 @@
 git pull
 echo ". . . . .start deploying. . . . . "
+sudo systemctl restart postgresql
 source ../venv/bin/activate
-./manage.py migrate
 pip install -r requirements.txt
+./manage.py migrate
 sudo systemctl daemon-reload
 sudo systemctl restart gunicorn_rezoo
 sudo systemctl restart nginx
