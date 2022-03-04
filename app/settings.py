@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'social_django',
     'storages',
     'ckeditor',
-    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -198,4 +197,5 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'full',
     },
 }
-CKEDITOR_UPLOAD_PATH = f"{BASE_DIR}/aws/"
+CKEDITOR_UPLOAD_PATH = ""
+CKEDITOR_RESTRICT_BY_DATE = False
