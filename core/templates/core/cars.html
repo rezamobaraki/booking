@@ -43,16 +43,23 @@
                                     <p class="price ml-auto">${{ search_result.pricing_info.price }}</p>
                                 </div>
                                 <div class="d-flex mb-3">
-                                     <span class="cat">supplier</span>
-                                  <p class="ml-auto">  <img src="{{ search_result.supplier_info.logo_url }}" alt="" width="64"
-                                         class=" mx-auto d-block"></p>
+                                    <span class="cat">supplier</span>
+                                    <p class="ml-auto"><img src="{{ search_result.supplier_info.logo_url }}" alt=""
+                                                            width="64"
+                                                            class=" mx-auto d-block"></p>
                                 </div>
                                 <p class="d-flex mb-0 d-block"><a
                                         href="https://cars.booking.com/package/deal/{{ search_key }}/{{ search_result.vehicle_info.v_id }}"
                                         class="btn btn-primary py-2 mr-1">Book
-                                    now</a> <a
-                                        href="{% url 'vehicles-detail' search_result.vehicle_info.v_id search_key pick drop %}"
-                                        class="btn btn-secondary py-2 ml-1">Details</a></p>
+                                    now</a>
+                                    <a href="{% url 'vehicles-detail' search_result.vehicle_info.v_id search_key pick drop %}"
+                                       class="btn btn-secondary py-2 ml-1">Details</a>
+                                </p>
+                                <hr>
+                                <p class="d-flex mb-0 d-block">
+                                      <a href="https://cars.booking.com/checkout/{{ search_key }}/{{ search_result.vehicle_info.v_id }}"
+                                       class="btn btn-danger py-2 mr-1">checkout</a>
+                                </p>
                             </div>
                         </div>
                     </div>
