@@ -19,11 +19,13 @@ from utils.content_manager import get_errors
 class VehicleViewSet(ViewSet):
     api_url = "https://booking-com.p.rapidapi.com/v1/car-rental/"
     serializer_class = SearchSerializer
-    permission_classes = [IsAuthenticated]
     renderer_classes = (JSONRenderer, TemplateHTMLRenderer)
 
-    @action(detail=False, methods=["post"], permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=["post"])
     def search(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.info(request, "To search cars, please log in first")
+            return redirect('accounts:login')
         self.api_url = self.api_url + "search"
         data = dict()
         for key, value in request.data.items():
