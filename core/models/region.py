@@ -1,8 +1,9 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class Country(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, verbose_name=_('Name'))
     iso3 = models.CharField(max_length=5)
     iso2 = models.CharField(max_length=5)
     numeric_code = models.CharField(max_length=5)
@@ -40,10 +41,10 @@ class State(models.Model):
 
 class City(models.Model):
     name = models.CharField(max_length=255)
-    state = models.ForeignKey(State, related_name='cities', on_delete=models.CASCADE)
+    state = models.ForeignKey(State, related_name='cities', on_delete=models.CASCADE, null=True)
     state_code = models.CharField(max_length=255)
     state_name = models.CharField(max_length=255)
-    country = models.ForeignKey(Country, related_name='cities', on_delete=models.CASCADE)
+    country = models.ForeignKey(Country, related_name='cities', on_delete=models.CASCADE, null=True)
     country_code = models.CharField(max_length=5)
     country_name = models.CharField(max_length=100)
     latitude = models.FloatField()

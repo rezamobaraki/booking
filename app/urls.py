@@ -16,13 +16,15 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 
 from core.api.booking_view import VehicleDetail
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
+                  path('i18n/', include('django.conf.urls.i18n')),
+                  re_path(r'^rosetta/', include('rosetta.urls')),
                   path('api/', include('core.urls', namespace='core')),
                   path('blog/', include('blog.urls', namespace='blog')),
                   path('ckeditor/', include('ckeditor_uploader.urls')),
@@ -38,4 +40,5 @@ urlpatterns = [
               ] + [
                   path('__debug__/', include('debug_toolbar.urls')),
               ]
+
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -32,6 +32,9 @@ INTERNAL_IPS = ['127.0.0.1', '141.11.246.38']
 # Application definition
 
 INSTALLED_APPS = [
+    # third party apps
+    'modeltranslation',
+    # default apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,11 +56,14 @@ INSTALLED_APPS = [
     'storages',
     'ckeditor',
     'ckeditor_uploader',
+    'rosetta',
+
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -126,7 +132,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fa-ir'
+LANGUAGES = (
+    ('en-us', 'English'),
+    ('fa-ir', 'Persian')
+)
+LOCALE_PATHS = [BASE_DIR / 'locale']
 
 TIME_ZONE = 'UTC'
 

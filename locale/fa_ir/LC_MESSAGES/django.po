@@ -1,0 +1,78 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-24 17:51+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: blog/models.py:19
+msgid "Title"
+msgstr "عنوان"
+
+#: core/models/region.py:6
+msgid "Name"
+msgstr "نام"
+
+#: core/templates/core/search_car.html:9
+msgid "search page"
+msgstr "صفحه جستچو"
+
+#: core/templates/core/search_car.html:20
+msgid "Just take an smile ;)"
+msgstr "فقط یک لبخند"
+
+#: core/templates/core/search_car.html:27
+msgid "Easy steps for renting a car"
+msgstr "آسان ترین قدم برای کرایه ماشین"
+
+#: core/templates/core/search_car.html:51
+msgid "Pick-up location"
+msgstr "محل دریافت"
+
+#: core/templates/core/search_car.html:58
+msgid "Drop-off location"
+msgstr "محل تحویل"
+
+#: core/templates/core/search_car.html:69
+msgid "Pick-up date"
+msgstr "تاریخ دریافت"
+
+#: core/templates/core/search_car.html:74
+msgid "Drop-off date"
+msgstr "تاریخ تحویل"
+
+#: core/templates/core/search_car.html:82
+msgid "Pick-up time"
+msgstr "زمان دریافت"
+
+#: core/templates/core/search_car.html:87
+msgid "Drop-off time"
+msgstr "زمان تحویل"
+
+#: core/templates/core/search_car.html:100
+msgid "Better Way to Rent Your Perfect"
+msgstr "راه بهتری برای اجاره پرفکت شما "
+
+#: core/templates/core/search_car.html:108
+msgid "Choose Your Pickup location"
+msgstr "محل تحویل خود را انتخاب کنید"
+
+#: core/templates/core/search_car.html:118
+msgid "Select the Best Deal"
+msgstr "انتخاب بهترین معامله"
+
+#: core/templates/core/search_car.html:127
+msgid "Reserve Your Rental Car"
+msgstr "ماشین اجاره ای خود را رزرو کنید"

@@ -1,9 +1,9 @@
-from django.db import models
-from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
-
+from django.contrib.auth.models import User
+from django.db import models
 # Create your models here.
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 
 class PublishedArticleManager(models.Manager):
@@ -16,7 +16,7 @@ class Article(models.Model):
         ('draft', 'Draft'),
         ('publish', 'Publish')
     )
-    title = models.CharField(max_length=120)
+    title = models.CharField(max_length=120, verbose_name=_('Title'))
     slug = models.SlugField(max_length=120, unique=True)
     writer = models.ForeignKey(User, on_delete=models.CASCADE)
     body = RichTextUploadingField()
